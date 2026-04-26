@@ -69,6 +69,16 @@
   /* Mobile nav */
   .mnav { transform: translateY(-12px); opacity:0; pointer-events:none; transition: all .25s ease; }
   .mnav.open { transform:none; opacity:1; pointer-events:auto; }
+  /* Header text light state when transparent over hero */
+  #siteHeader.is-top { color:#FBF5EA; }
+  #siteHeader.is-top a:not(.btn-gold),
+  #siteHeader.is-top span,
+  #siteHeader.is-top button:not(.btn-gold) { color:#FBF5EA; }
+  #siteHeader.is-top .btn-ghost { border-color: rgba(251,245,234,.35); color:#FBF5EA; }
+  #siteHeader.is-top .btn-ghost:hover { background:#FBF5EA; color:#1F1A14; border-color: transparent; }
+  #siteHeader.is-top .nav-link[aria-current="page"]::after { background:#F4DC9A; }
+  #siteHeader.is-top button:hover:not(.btn-gold) { background: rgba(251,245,234,.1); }
+  #siteHeader, #siteHeader * { transition: color .25s ease, background-color .25s ease, border-color .25s ease; }
 </style>
 
 <script type="application/ld+json">
@@ -104,7 +114,7 @@
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:bg-ink focus:text-cream focus:px-4 focus:py-2 focus:rounded-full">Skip to content</a>
 
 <!-- ============ HEADER ============ -->
-<header id="siteHeader" class="fixed inset-x-0 top-0 z-50 transition-all duration-300">
+<header id="siteHeader" class="fixed inset-x-0 top-0 z-50 transition-all duration-300 is-top">
   <div class="max-w-7xl mx-auto px-5 md:px-8 flex items-center justify-between h-[72px]">
     <a href="index.html" class="flex items-center gap-3 group">
       <span class="inline-block w-9 h-9 rounded-full" style="background:radial-gradient(circle at 35% 30%, #F4DC9A, #B5821C 70%, #503714);"></span>
@@ -364,8 +374,13 @@
   // Header solidify on scroll
   const header = document.getElementById('siteHeader');
   const onScroll = () => {
-    if (window.scrollY > 24) header.classList.add('bg-cream/90','backdrop-blur','shadow-soft','border-b','border-ink/5');
-    else header.classList.remove('bg-cream/90','backdrop-blur','shadow-soft','border-b','border-ink/5');
+    if (window.scrollY > 24) {
+      header.classList.add('bg-cream/90','backdrop-blur','shadow-soft','border-b','border-ink/5');
+      header.classList.remove('is-top');
+    } else {
+      header.classList.remove('bg-cream/90','backdrop-blur','shadow-soft','border-b','border-ink/5');
+      header.classList.add('is-top');
+    }
   };
   document.addEventListener('scroll', onScroll, { passive:true }); onScroll();
 
